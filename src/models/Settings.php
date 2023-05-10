@@ -53,11 +53,6 @@ class Settings extends Model
     public $appleServiceSecret = null;
     public $appleRedirectUrl = null;
 
-    public $microsoftAppId = null;
-    public $microsoftAppSecret = null;
-    public $microsoftRedirectUrl = null;
-    public $allowedMicrosoftDomains = null;
-
     // Messages
     public $invalidHeader = 'Invalid Authorization Header';
     public $invalidSchema = 'No schema has been set for this user group';
@@ -78,6 +73,7 @@ class Settings extends Model
     public $passwordUpdated = 'Successfully updated password';
     public $passwordResetSent = 'You will receive an email if it matches an account in our system';
     public $passwordResetRequired = 'Password reset required; please check your email';
+    public $accountDeleted = 'Successfully deleted account';
 
     public $tokenNotFound = "We couldn't find any matching tokens";
     public $userNotFound = "We couldn't find any matching users";
@@ -93,7 +89,6 @@ class Settings extends Model
     public $googleEmailMismatch = "Email address doesn't match allowed Google domains";
     public $facebookEmailMismatch = "Email address doesn't match allowed Facebook domains";
     public $twitterEmailMismatch = "Email address doesn't match allowed Twitter domains";
-    public $microsoftEmailMismatch = "Email address doesn't match allowed Microsoft domains";
 
     public function rules()
     {
@@ -109,6 +104,7 @@ class Settings extends Model
                     'invalidPasswordUpdate',
                     'invalidUserUpdate',
                     'invalidOauthToken',
+                    'accountDeleted',
                     'tokenNotFound',
                     'userNotFound',
                     'entryNotFound',
@@ -121,7 +117,6 @@ class Settings extends Model
                     'googleEmailMismatch',
                     'facebookEmailMismatch',
                     'twitterEmailMismatch',
-                    'microsoftEmailMismatch',
                 ],
                 'required',
             ],
@@ -155,10 +150,6 @@ class Settings extends Model
                     'appleServiceId',
                     'appleServiceSecret',
                     'appleRedirectUrl',
-                    'microsoftAppId',
-                    'microsoftAppSecret',
-                    'microsoftRedirectUrl',
-                    'allowedMicrosoftDomains',
                 ],
                 'default',
             ],

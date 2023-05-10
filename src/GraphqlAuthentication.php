@@ -22,7 +22,6 @@ use jamesedmonston\graphqlauthentication\services\AppleService;
 use jamesedmonston\graphqlauthentication\services\ErrorService;
 use jamesedmonston\graphqlauthentication\services\FacebookService;
 use jamesedmonston\graphqlauthentication\services\GoogleService;
-use jamesedmonston\graphqlauthentication\services\MicrosoftService;
 use jamesedmonston\graphqlauthentication\services\RestrictionService;
 use jamesedmonston\graphqlauthentication\services\SocialService;
 use jamesedmonston\graphqlauthentication\services\TokenService;
@@ -45,7 +44,6 @@ use yii\base\Event;
  * @property FacebookService $facebook
  * @property TwitterService $twitter
  * @property AppleService $apple
- * @property MicrosoftService $microsoft
  * @property ErrorService $error
  */
 
@@ -100,11 +98,6 @@ class GraphqlAuthentication extends Plugin
     public static $appleService;
 
     /**
-    * @var MicrosoftService
-    */
-    public static $microsoftService;
-
-    /**
      * @var ErrorService
      */
     public static $errorService;
@@ -151,7 +144,6 @@ class GraphqlAuthentication extends Plugin
             'facebook' => FacebookService::class,
             'twitter' => TwitterService::class,
             'apple' => AppleService::class,
-            'microsoft' => MicrosoftService::class,
             'error' => ErrorService::class,
         ]);
 
@@ -163,7 +155,6 @@ class GraphqlAuthentication extends Plugin
         $this->facebook->init();
         $this->twitter->init();
         $this->apple->init();
-        $this->microsoft->init();
         $this->error->init();
 
         self::$plugin = $this;
@@ -175,7 +166,6 @@ class GraphqlAuthentication extends Plugin
         self::$facebookService = $this->facebook;
         self::$twitterService = $this->twitter;
         self::$appleService = $this->apple;
-        self::$microsoftService = $this->microsoft;
         self::$errorService = $this->error;
         self::$settings = $this->getSettings();
 

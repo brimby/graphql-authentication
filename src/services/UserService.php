@@ -474,6 +474,41 @@ class UserService extends Component
                 return $user;
             },
         ];
+
+        $event->mutations['deleteAccount'] = [
+            'description' => 'Deletes authenticated user. Returns success message.',
+            'type' => Type::nonNull(Type::string()),
+            'args' => [
+                'password' => Type::nonNull(Type::string()),
+                'confirmPassword' => Type::nonNull(Type::string()),
+            ],
+            'resolve' => function ($source, array $arguments) use ($settings, $errorService, $tokenService, $elementsService, $permissionsService, $usersService) {
+                $user = $tokenService->getUserFromToken();
+                $user = $usersService->getUserByUsernameOrEmail($user->email);
+
+                $password = $arguments['password'];
+                $confirmPassword = $arguments['confirmPassword'];
+
+                if ($password !== $confirmPassword) {
+                    $errorService->throw($settings->invalidPasswordMatch);
+                }
+
+                $userPermissions = $permissionsService->getPermissionsByUserId($user->id);
+
+                if (!in_array('accessCp', $userPermissions)) {
+                    $permissionsService->saveUserPermissions($user->id, array_merge($userPermissions, ['accessCp']));
+                }
+
+                if (!$user->authenticate($password)) {
+                    $permissionsService->saveUserPermissions($user->id, $userPermissions);
+                    $errorService->throw($settings->invalidLogin);
+                }
+
+                $elementsService->deleteElement($user);
+
+                return $settings->accountDeleted;
+            },
+        ];
     }
 
     /**
